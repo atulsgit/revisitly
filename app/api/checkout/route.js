@@ -38,18 +38,33 @@ export async function POST(req) {
     }
 
     // Create checkout session with launch coupon auto-applied
+    // const session = await stripe.checkout.sessions.create({
+    //   customer: stripeCustomerId,
+    //   mode: 'subscription',
+    //   payment_method_types: ['card'],
+    //   line_items: [{ price: priceId, quantity: 1 }],
+    //   discounts: [{ coupon: process.env.STRIPE_LAUNCH_COUPON }],
+    //   success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?success=true`,
+    //   cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/pricing`,
+    //   subscription_data: {
+    //     metadata: { userId },
+    //   },
+    // })
+
+
     const session = await stripe.checkout.sessions.create({
-      customer: stripeCustomerId,
-      mode: 'subscription',
-      payment_method_types: ['card'],
-      line_items: [{ price: priceId, quantity: 1 }],
-      discounts: [{ coupon: process.env.STRIPE_LAUNCH_COUPON }],
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?success=true`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/pricing`,
-      subscription_data: {
-        metadata: { userId },
-      },
-    })
+  customer: stripeCustomerId,
+  mode: 'subscription',
+  payment_method_types: ['card'],
+  line_items: [{ price: priceId, quantity: 1 }],
+  discounts: [{ coupon: process.env.STRIPE_LAUNCH_COUPON }],
+  success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?success=true`,
+  cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/pricing`,
+  metadata: { userId },                    // ← Add here on session
+  subscription_data: {
+    metadata: { userId },                  // ← Keep here too
+  },
+})
 
     return Response.json({ url: session.url })
 
