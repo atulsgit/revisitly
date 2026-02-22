@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from 'react'
 import { supabase } from '../../lib/supabase'
 import { useRouter, useSearchParams } from 'next/navigation'
+import QRCodeCard from '../../components/QRCodeCard'
 
 const PLAN_DETAILS = {
   starter: { label: 'Starter', color: '#8888aa', limit: '50 customers/mo' },
@@ -283,6 +284,10 @@ function DashboardContent() {
           </div>
         )}
 
+<QRCodeCard 
+  business={business} 
+  appUrl={process.env.NEXT_PUBLIC_APP_URL} 
+/>
         {/* Customer Table */}
         <div style={s.tableCard}>
           <div style={s.tableHeader}>
