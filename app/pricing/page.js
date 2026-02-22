@@ -56,7 +56,7 @@ const PLANS = [
 
 const PLAN_ORDER = { starter: 1, growth: 2, pro: 3 }
 
-export default function PricingPage() {
+function PricingContent() { 
   const [currentPlan, setCurrentPlan] = useState(null)
   const [user, setUser] = useState(null)
   const [business, setBusiness] = useState(null)
@@ -307,4 +307,18 @@ const s = {
   cardNote: { textAlign: 'center', color: '#8888aa', fontSize: '0.75rem' },
   trust: { display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 24, padding: '24px 0', borderTop: '1px solid rgba(255,255,255,0.07)' },
   trustItem: { color: '#8888aa', fontSize: '0.85rem', fontWeight: 500 },
+}
+
+export default function PricingPage() {
+  return (
+    <Suspense fallback={
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', 
+        justifyContent: 'center', background: '#0a0a0f' }}>
+        <div style={{ width: 36, height: 36, border: '3px solid rgba(255,255,255,0.1)', 
+          borderTop: '3px solid #00e5a0', borderRadius: '50%' }} />
+      </div>
+    }>
+      <PricingContent />
+    </Suspense>
+  )
 }

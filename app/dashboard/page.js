@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { supabase } from '../../lib/supabase'
 import { useRouter, useSearchParams } from 'next/navigation'
 
@@ -12,7 +12,8 @@ const PLAN_DETAILS = {
   inactive:  { label: 'Inactive',  color: '#ff8080', limit: 'No active plan' },
 }
 
-export default function Dashboard() {
+function DashboardContent() {
+
   const router = useRouter()
   const searchParams = useSearchParams()
   const [business, setBusiness] = useState(null)
@@ -418,4 +419,18 @@ const s = {
   emptyIcon: { fontSize: '3rem', marginBottom: 8 },
   emptyTitle: { color: '#f0f0f8', fontWeight: 700, fontSize: '1.1rem', fontFamily: "'Syne', sans-serif" },
   emptyText: { color: '#8888aa', fontSize: '0.88rem', maxWidth: 320 },
+}
+
+export default function Dashboard() {
+  return (
+    <Suspense fallback={
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', 
+        justifyContent: 'center', background: '#0a0a0f' }}>
+        <div style={{ width: 36, height: 36, border: '3px solid rgba(255,255,255,0.1)', 
+          borderTop: '3px solid #00e5a0', borderRadius: '50%' }} />
+      </div>
+    }>
+      <DashboardContent />
+    </Suspense>
+  )
 }
