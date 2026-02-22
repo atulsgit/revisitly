@@ -7,6 +7,13 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY
 )
 
+// Map Stripe Price IDs to plan names
+const PLAN_MAP = {
+  [process.env.NEXT_PUBLIC_STRIPE_STARTER_PRICE_ID]: 'starter',
+  [process.env.NEXT_PUBLIC_STRIPE_GROWTH_PRICE_ID]: 'growth',
+  [process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID]: 'pro',
+}
+
 export async function POST(req) {
   const body = await req.text()
   const sig = req.headers.get('stripe-signature')
@@ -24,30 +31,41 @@ export async function POST(req) {
 
     case 'checkout.session.completed': {
       const session = event.data.object
-      const userId = session.subscription_data?.metadata?.userId
+
+      // Retrieve full subscription to get price ID
+      const subscription = await stripe.subscriptions.retrieve(
+        session.subscription
+      )
+
+      const priceId = subscription.items.data[0].price.id
+      const planName = PLAN_MAP[priceId] || 'starter'
+      const userId = subscription.metadata?.userId
+
       if (!userId) break
 
-      // Activate the account
       await supabase
         .from('businesses')
         .update({
-          plan: 'active',
+          plan: planName,
           stripe_subscription_id: session.subscription,
         })
         .eq('user_id', userId)
+
       break
     }
 
     case 'customer.subscription.updated': {
       const sub = event.data.object
+      const priceId = sub.items.data[0].price.id
+      const planName = PLAN_MAP[priceId] || 'starter'
       const userId = sub.metadata?.userId
       if (!userId) break
 
-      const status = sub.status === 'active' ? 'active' : 'inactive'
       await supabase
         .from('businesses')
-        .update({ plan: status })
+        .update({ plan: sub.status === 'active' ? planName : 'inactive' })
         .eq('user_id', userId)
+
       break
     }
 
@@ -60,6 +78,7 @@ export async function POST(req) {
         .from('businesses')
         .update({ plan: 'cancelled' })
         .eq('user_id', userId)
+
       break
     }
   }
