@@ -156,6 +156,9 @@ export default function Dashboard() {
           <div style={s.navItem}>
             <span>⚙️</span> Settings
           </div>
+          <a href="/pricing" style={{ ...s.navItem, textDecoration: 'none' }}>
+            <span>⭐</span> Upgrade Plan
+          </a>
         </nav>
 
         <div style={s.sidebarBottom}>

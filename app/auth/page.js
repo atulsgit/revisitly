@@ -54,7 +54,8 @@ export default function AuthPage() {
           password,
         })
         if (loginError) throw loginError
-        router.push('/dashboard')
+        // router.push('/dashboard')
+        router.push('/pricing')
       }
     } catch (err) {
       setError(err.message)
