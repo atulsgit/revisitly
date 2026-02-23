@@ -2,37 +2,72 @@
 
 import { useState, useEffect } from 'react'
 
-// export default function CheckinPage({ params }) {
-//   const slug = params.slug
+export default function CheckinPage({ params }) {
+  const [business, setBusiness] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [notFound, setNotFound] = useState(false)
+  
+  // Unwrap params correctly
+  const slug = params?.slug
+
+  useEffect(() => {
+    if (!slug) return
+    
+    console.log('Fetching slug:', slug)
+    
+    fetch(`/api/get-business?slug=${encodeURIComponent(slug)}`)
+      .then(r => r.json())
+      .then(({ data }) => {
+        console.log('Got data:', data)
+        if (!data) setNotFound(true)
+        else setBusiness(data)
+        setLoading(false)
+      })
+      .catch(err => {
+        console.error('Fetch error:', err)
+        setNotFound(true)
+        setLoading(false)
+      })
+  }, [slug])
+
+
+
 
 // 'use client'
 
 // import { useState, useEffect } from 'react'
-import { createClient } from '@supabase/supabase-js'
 
-// Create client directly in this file
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-)
+// // export default function CheckinPage({ params }) {
+// //   const slug = params.slug
 
-export default function CheckinPage({ params }) {
-  const slug = params.slug
-  const [business, setBusiness] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [submitting, setSubmitting] = useState(false)
-  const [submitted, setSubmitted] = useState(false)
-  const [notFound, setNotFound] = useState(false)
+// // 'use client'
 
-  const [form, setForm] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    service: '',
-    referral: '',
-  })
+// // import { useState, useEffect } from 'react'
+// import { createClient } from '@supabase/supabase-js'
 
-  useEffect(() => { loadBusiness() }, [slug])
+// // Create client directly in this file
+// const supabase = createClient(
+//   process.env.NEXT_PUBLIC_SUPABASE_URL,
+//   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+// )
+
+// export default function CheckinPage({ params }) {
+//   const slug = params.slug
+//   const [business, setBusiness] = useState(null)
+//   const [loading, setLoading] = useState(true)
+//   const [submitting, setSubmitting] = useState(false)
+//   const [submitted, setSubmitted] = useState(false)
+//   const [notFound, setNotFound] = useState(false)
+
+//   const [form, setForm] = useState({
+//     name: '',
+//     email: '',
+//     phone: '',
+//     service: '',
+//     referral: '',
+//   })
+
+//   useEffect(() => { loadBusiness() }, [slug])
 
 //   const loadBusiness = async () => {
 //     const { data, error } = await supabase
