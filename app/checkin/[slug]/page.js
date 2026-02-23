@@ -21,20 +21,40 @@ export default function CheckinPage({ params }) {
 
   useEffect(() => { loadBusiness() }, [slug])
 
-  const loadBusiness = async () => {
-    const { data, error } = await supabase
-      .from('businesses')
-      .select('id, name, business_type, google_review_url')
-      .eq('slug', slug)
-      .single()
+//   const loadBusiness = async () => {
+//     const { data, error } = await supabase
+//       .from('businesses')
+//       .select('id, name, business_type, google_review_url')
+//       .eq('slug', slug)
+//       .single()
 
-    if (error || !data) {
-      setNotFound(true)
-    } else {
-      setBusiness(data)
-    }
-    setLoading(false)
+//     if (error || !data) {
+//       setNotFound(true)
+//     } else {
+//       setBusiness(data)
+//     }
+//     setLoading(false)
+//   }
+const loadBusiness = async () => {
+  console.log('Slug from URL:', slug)
+  console.log('Slug length:', slug?.length)
+  
+  const { data, error } = await supabase
+    .from('businesses')
+    .select('id, name, business_type, google_review_url')
+    .eq('slug', slug)
+    .single()
+
+  console.log('Data:', data)
+  console.log('Error:', error)
+  
+  if (error || !data) {
+    setNotFound(true)
+  } else {
+    setBusiness(data)
   }
+  setLoading(false)
+}
 
   const handleSubmit = async (e) => {
     e.preventDefault()
