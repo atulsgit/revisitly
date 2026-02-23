@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { supabase } from '../../../lib/supabase'
+import { supabasePublic as supabase } from '../../../lib/supabase-public'
 
 export default function CheckinPage({ params }) {
   const slug = params.slug
