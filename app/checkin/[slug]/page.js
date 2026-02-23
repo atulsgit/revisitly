@@ -1,6 +1,13 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+
+// export default function CheckinPage({ params }) {
+//   const slug = params.slug
+
+// 'use client'
+
+// import { useState, useEffect } from 'react'
 import { createClient } from '@supabase/supabase-js'
 
 // Create client directly in this file
@@ -62,15 +69,35 @@ export default function CheckinPage({ params }) {
 //   setLoading(false)
 // }
 
+// const loadBusiness = async () => {
+//   try {
+//     const { data, error } = await supabase
+//       .from('businesses')
+//       .select('id, name, business_type, google_review_url')
+//       .eq('slug', slug)
+//       .maybeSingle()
+
+//     console.log('URL:', process.env.NEXT_PUBLIC_SUPABASE_URL)
+//     console.log('Data:', data)
+//     console.log('Error:', error)
+
+//     if (!data) {
+//       setNotFound(true)
+//     } else {
+//       setBusiness(data)
+//     }
+//   } catch (err) {
+//     console.error('Caught error:', err)
+//     setNotFound(true)
+//   }
+//   setLoading(false)
+// }
+
 const loadBusiness = async () => {
   try {
-    const { data, error } = await supabase
-      .from('businesses')
-      .select('id, name, business_type, google_review_url')
-      .eq('slug', slug)
-      .maybeSingle()
+    const res = await fetch(`/api/get-business?slug=${slug}`)
+    const { data, error } = await res.json()
 
-    console.log('URL:', process.env.NEXT_PUBLIC_SUPABASE_URL)
     console.log('Data:', data)
     console.log('Error:', error)
 
@@ -80,7 +107,7 @@ const loadBusiness = async () => {
       setBusiness(data)
     }
   } catch (err) {
-    console.error('Caught error:', err)
+    console.error('Error:', err)
     setNotFound(true)
   }
   setLoading(false)
