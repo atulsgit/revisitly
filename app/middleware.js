@@ -15,9 +15,26 @@ export async function middleware(req) {
   }
 
   // If user is already logged in and visits auth page, redirect to dashboard
-  if (session && req.nextUrl.pathname === '/auth') {
+  // if (session && req.nextUrl.pathname === '/auth') {
+  //   return NextResponse.redirect(new URL('/dashboard', req.url))
+  // }
+  // If logged in and visits auth page → check plan
+if (session && req.nextUrl.pathname === '/auth') {
+  const supabase = createMiddlewareClient({ req, res })
+  
+  const { data: business } = await supabase
+    .from('businesses')
+    .select('plan')
+    .eq('user_id', session.user.id)
+    .single()
+
+  const plan = business?.plan
+  if (plan === 'growth' || plan === 'pro') {
     return NextResponse.redirect(new URL('/dashboard', req.url))
+  } else {
+    return NextResponse.redirect(new URL('/pricing', req.url))
   }
+}
 
   return res
 }

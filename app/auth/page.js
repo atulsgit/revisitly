@@ -49,13 +49,34 @@ export default function AuthPage() {
 
       } else {
         // Login
-        const { error: loginError } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        })
-        if (loginError) throw loginError
-        // router.push('/dashboard')
-        router.push('/pricing')
+        // const { error: loginError } = await supabase.auth.signInWithPassword({
+        //   email,
+        //   password,
+        // })
+        // if (loginError) throw loginError
+        // // router.push('/dashboard')
+        // router.push('/pricing')
+        const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
+  email,
+  password,
+})
+if (loginError) throw loginError
+
+// Check their plan
+const { data: business } = await supabase
+  .from('businesses')
+  .select('plan')
+  .eq('user_id', loginData.user.id)
+  .single()
+
+const plan = business?.plan
+
+// Redirect based on plan
+if (plan === 'growth' || plan === 'pro') {
+  router.push('/dashboard')
+} else {
+  router.push('/pricing')
+}
       }
     } catch (err) {
       setError(err.message)
