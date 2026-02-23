@@ -1,7 +1,13 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { supabasePublic as supabase } from '../../../lib/supabase-public'
+import { createClient } from '@supabase/supabase-js'
+
+// Create client directly in this file
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+)
 
 export default function CheckinPage({ params }) {
   const slug = params.slug
@@ -35,27 +41,50 @@ export default function CheckinPage({ params }) {
 //     }
 //     setLoading(false)
 //   }
-const loadBusiness = async () => {
-  console.log('Slug from URL:', slug)
-  console.log('Slug length:', slug?.length)
+// const loadBusiness = async () => {
+//   console.log('Slug from URL:', slug)
+//   console.log('Slug length:', slug?.length)
   
-  const { data, error } = await supabase
-    .from('businesses')
-    .select('id, name, business_type, google_review_url')
-    .eq('slug', slug)
-    .single()
+//   const { data, error } = await supabase
+//     .from('businesses')
+//     .select('id, name, business_type, google_review_url')
+//     .eq('slug', slug)
+//     .single()
 
-  console.log('Data:', data)
-  console.log('Error:', error)
+//   console.log('Data:', data)
+//   console.log('Error:', error)
   
-  if (error || !data) {
+//   if (error || !data) {
+//     setNotFound(true)
+//   } else {
+//     setBusiness(data)
+//   }
+//   setLoading(false)
+// }
+
+const loadBusiness = async () => {
+  try {
+    const { data, error } = await supabase
+      .from('businesses')
+      .select('id, name, business_type, google_review_url')
+      .eq('slug', slug)
+      .maybeSingle()
+
+    console.log('URL:', process.env.NEXT_PUBLIC_SUPABASE_URL)
+    console.log('Data:', data)
+    console.log('Error:', error)
+
+    if (!data) {
+      setNotFound(true)
+    } else {
+      setBusiness(data)
+    }
+  } catch (err) {
+    console.error('Caught error:', err)
     setNotFound(true)
-  } else {
-    setBusiness(data)
   }
   setLoading(false)
 }
-
   const handleSubmit = async (e) => {
     e.preventDefault()
     setSubmitting(true)
