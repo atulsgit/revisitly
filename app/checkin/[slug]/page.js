@@ -10,25 +10,25 @@ export default function CheckinPage({ params }) {
   // Unwrap params correctly
   const slug = params?.slug
 
-  useEffect(() => {
-    if (!slug) return
+//   useEffect(() => {
+//     if (!slug) return
     
-    console.log('Fetching slug:', slug)
+//     console.log('Fetching slug:', slug)
     
-    fetch(`/api/get-business?slug=${encodeURIComponent(slug)}`)
-      .then(r => r.json())
-      .then(({ data }) => {
-        console.log('Got data:', data)
-        if (!data) setNotFound(true)
-        else setBusiness(data)
-        setLoading(false)
-      })
-      .catch(err => {
-        console.error('Fetch error:', err)
-        setNotFound(true)
-        setLoading(false)
-      })
-  }, [slug])
+//     fetch(`/api/get-business?slug=${encodeURIComponent(slug)}`)
+//       .then(r => r.json())
+//       .then(({ data }) => {
+//         console.log('Got data:', data)
+//         if (!data) setNotFound(true)
+//         else setBusiness(data)
+//         setLoading(false)
+//       })
+//       .catch(err => {
+//         console.error('Fetch error:', err)
+//         setNotFound(true)
+//         setLoading(false)
+//       })
+//   }, [slug])
 
 
 
@@ -127,6 +127,37 @@ export default function CheckinPage({ params }) {
 //   }
 //   setLoading(false)
 // }
+
+useEffect(() => {
+  if (!slug) {
+    setNotFound(true)
+    setLoading(false)
+    return
+  }
+  
+  console.log('Slug:', slug)
+
+  fetch(`/api/get-business?slug=${encodeURIComponent(slug)}`)
+    .then(r => {
+      console.log('Response status:', r.status)
+      return r.json()
+    })
+    .then(({ data, error }) => {
+      console.log('Business:', data)
+      console.log('Error:', error)
+      if (!data) {
+        setNotFound(true)
+      } else {
+        setBusiness(data)
+      }
+      setLoading(false)
+    })
+    .catch(err => {
+      console.error('Fetch failed:', err)
+      setNotFound(true)
+      setLoading(false)
+    })
+}, [slug])
 
 const loadBusiness = async () => {
   try {
