@@ -126,7 +126,13 @@ export default function LandingPage() {
         <p style={s.builtForLabel}>Built for local businesses like yours</p>
         <div style={s.bizTypes}>
           {[
+            // { icon: '💇', label: 'Hair & Beauty Salons' },
+            // { icon: '🔧', label: 'Plumbers & Electricians' },
+            // { icon: '🏥', label: 'Clinics & Physios' },
+            // { icon: '🛠', label: 'Contractors & Trades' },
+            // { icon: '💆', label: 'Spas & Wellness' },
             { icon: '💇', label: 'Hair & Beauty Salons' },
+            { icon: '🍕', label: 'Restaurants & Cafés' },      // ← Add
             { icon: '🔧', label: 'Plumbers & Electricians' },
             { icon: '🏥', label: 'Clinics & Physios' },
             { icon: '🛠', label: 'Contractors & Trades' },

@@ -151,6 +151,8 @@ if (plan === 'growth' || plan === 'pro') {
                 >
                   <option value="salon">Hair & Beauty Salon</option>
                   <option value="clinic">Clinic / Healthcare</option>
+                  <option value="restaurant">Restaurant & Café</option>
+                  <option value="takeout">Takeout & Delivery</option> 
                   <option value="trade">Trade (Plumber, Electrician, etc.)</option>
                   <option value="spa">Spa & Wellness</option>
                   <option value="other">Other</option>

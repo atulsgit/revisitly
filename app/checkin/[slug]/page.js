@@ -59,13 +59,22 @@ export default function CheckinPage() {
     setSubmitting(false)
   }
 
-  const serviceOptions = {
-    salon: ['Haircut', 'Colour', 'Blowdry', 'Treatment', 'Extensions', 'Other'],
-    clinic: ['Consultation', 'Treatment', 'Follow-up', 'Procedure', 'Other'],
-    trade: ['Repair', 'Installation', 'Maintenance', 'Inspection', 'Quote', 'Other'],
-    spa: ['Massage', 'Facial', 'Body Treatment', 'Manicure', 'Pedicure', 'Other'],
-    other: ['Service', 'Consultation', 'Appointment', 'Other'],
-  }
+//   const serviceOptions = {
+//     salon: ['Haircut', 'Colour', 'Blowdry', 'Treatment', 'Extensions', 'Other'],
+//     clinic: ['Consultation', 'Treatment', 'Follow-up', 'Procedure', 'Other'],
+//     trade: ['Repair', 'Installation', 'Maintenance', 'Inspection', 'Quote', 'Other'],
+//     spa: ['Massage', 'Facial', 'Body Treatment', 'Manicure', 'Pedicure', 'Other'],
+//     other: ['Service', 'Consultation', 'Appointment', 'Other'],
+//   }
+const serviceOptions = {
+  salon: ['Haircut', 'Colour', 'Blowdry', 'Treatment', 'Extensions', 'Other'],
+  restaurant: ['Dine In', 'Takeout', 'Delivery', 'Private Event', 'Other'],  // ← Add
+  takeout: ['Pickup', 'Delivery', 'Catering', 'Other'],                       // ← Add
+  clinic: ['Consultation', 'Treatment', 'Follow-up', 'Procedure', 'Other'],
+  trade: ['Repair', 'Installation', 'Maintenance', 'Inspection', 'Quote', 'Other'],
+  spa: ['Massage', 'Facial', 'Body Treatment', 'Manicure', 'Pedicure', 'Other'],
+  other: ['Service', 'Consultation', 'Appointment', 'Other'],
+}
 
   const services = serviceOptions[business?.business_type] || serviceOptions.other
 
