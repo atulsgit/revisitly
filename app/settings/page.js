@@ -56,29 +56,57 @@ export default function SettingsPage() {
     setLoading(false)
   }
 
-  const handleSave = async (e) => {
-    e.preventDefault()
-    setSaving(true)
+//   const handleSave = async (e) => {
+//     e.preventDefault()
+//     setSaving(true)
 
-    const { error } = await supabase
-      .from('businesses')
-      .update({
-        name: form.name,
-        phone: form.phone,
-        business_type: form.business_type,
-        google_review_url: form.google_review_url,
-      })
-      .eq('id', business.id)
+//     const { error } = await supabase
+//       .from('businesses')
+//       .update({
+//         name: form.name,
+//         phone: form.phone,
+//         business_type: form.business_type,
+//         google_review_url: form.google_review_url,
+//       })
+//       .eq('id', business.id)
 
-    if (!error) {
-      showToast('Settings saved successfully!')
-      setBusiness({ ...business, ...form })
-    } else {
-      showToast(error.message, 'error')
-    }
-    setSaving(false)
+//     if (!error) {
+//       showToast('Settings saved successfully!')
+//       setBusiness({ ...business, ...form })
+//     } else {
+//       showToast(error.message, 'error')
+//     }
+//     setSaving(false)
+//   }
+const handleSave = async (e) => {
+  e.preventDefault()
+  setSaving(true)
+
+  // Generate slug from business name
+  const slug = form.name
+    .toLowerCase()
+    .replace(/[^a-zA-Z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+
+  const { error } = await supabase
+    .from('businesses')
+    .update({
+      name: form.name,
+      phone: form.phone,
+      business_type: form.business_type,
+      google_review_url: form.google_review_url,
+      slug: slug,
+    })
+    .eq('id', business.id)
+
+  if (!error) {
+    showToast('Settings saved successfully!')
+    setBusiness({ ...business, ...form, slug })
+  } else {
+    showToast(error.message, 'error')
   }
-
+  setSaving(false)
+}
   const handlePasswordChange = async (e) => {
     e.preventDefault()
     if (passwordForm.newPassword !== passwordForm.confirmPassword) {
