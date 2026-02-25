@@ -64,7 +64,8 @@ export async function GET(req) {
     // ── 60-DAY RE-ENGAGEMENT ──────────────────────────────
     const { data: customers60 } = await supabase
       .from('customers')
-      .select('*, businesses(name, google_review_url)')
+    //   .select('*, businesses(name, google_review_url)')
+      .select('*, businesses(name, google_review_url, website_url, contact_phone)')
       .eq('rebook_sent', true)
       .eq('followup_sent', true)
       .not('email', 'is', null)
