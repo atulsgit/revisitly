@@ -19,6 +19,8 @@ export default function SettingsPage() {
     phone: '',
     business_type: 'salon',
     google_review_url: '',
+    website_url: '',      // ← add
+    contact_phone: '',    // ← add
   })
 
   const [passwordForm, setPasswordForm] = useState({
@@ -51,6 +53,8 @@ export default function SettingsPage() {
         phone: biz.phone || '',
         business_type: biz.business_type || 'salon',
         google_review_url: biz.google_review_url || '',
+        website_url: biz.website_url || '',
+        contact_phone: biz.contact_phone || '',
       })
     }
     setLoading(false)

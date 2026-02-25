@@ -191,7 +191,12 @@ export async function GET(req) {
 // }
 
 async function sendRebookEmail(customer, businessName, reviewUrl, websiteUrl, contactPhone, days) {
-
+console.log('Business data:', {
+  name: customer.businesses?.name,
+  website: customer.businesses?.website_url,
+  phone: customer.businesses?.contact_phone,
+  review: customer.businesses?.google_review_url,
+})
   // Smart fallback chain for CTA
   let ctaUrl = '#'
   let ctaLabel = 'Get In Touch'
