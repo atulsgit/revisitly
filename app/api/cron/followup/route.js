@@ -21,7 +21,8 @@ export async function GET(req) {
     // ── 30-DAY RE-ENGAGEMENT ──────────────────────────────
     const { data: customers30 } = await supabase
       .from('customers')
-      .select('*, businesses(name, google_review_url)')
+    //   .select('*, businesses(name, google_review_url)')
+      .select('*, businesses(name, google_review_url, website_url, contact_phone)')
       .eq('followup_sent', true)
       .eq('rebook_sent', false)
       .not('email', 'is', null)
@@ -34,6 +35,8 @@ export async function GET(req) {
           customer,
           customer.businesses?.name,
           customer.businesses?.google_review_url,
+          customer.businesses?.website_url,
+          customer.businesses?.contact_phone,
           30
         )
 
@@ -74,6 +77,8 @@ export async function GET(req) {
           customer,
           customer.businesses?.name,
           customer.businesses?.google_review_url,
+          customer.businesses?.website_url,
+          customer.businesses?.contact_phone,
           60
         )
 
@@ -105,7 +110,23 @@ export async function GET(req) {
   }
 }
 
-async function sendRebookEmail(customer, businessName, reviewUrl, days) {
+// async function sendRebookEmail(customer, businessName, reviewUrl, days) {
+async function sendRebookEmail(customer, businessName, reviewUrl, websiteUrl, contactPhone, days) {
+
+  // Smart fallback chain
+  let ctaUrl = '#'
+  let ctaLabel = 'Get In Touch'
+
+  if (websiteUrl) {
+    ctaUrl = websiteUrl
+    ctaLabel = 'Book My Next Visit →'
+  } else if (contactPhone) {
+    ctaUrl = `tel:${contactPhone.replace(/\D/g, '')}`
+    ctaLabel = `📞 Call Us to Book`
+  } else if (reviewUrl) {
+    ctaUrl = reviewUrl
+    ctaLabel = '⭐ Leave Us a Review'
+  }
   const subject = days === 30
     ? `We miss you at ${businessName}! 💛`
     : `It's been a while — come back to ${businessName}! 🌟`

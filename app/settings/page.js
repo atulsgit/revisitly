@@ -244,6 +244,27 @@ const handleSave = async (e) => {
                 This link is included in every follow-up email. Get yours from Google Business Profile → Get more reviews → Share review form.
               </span>
             </div>
+            <div style={s.field}>
+  <label style={s.label}>Business Website</label>
+  <input
+    style={s.input}
+    value={form.website_url || ''}
+    onChange={e => setForm({ ...form, website_url: e.target.value })}
+    placeholder="https://yourwebsite.com"
+  />
+  <span style={s.hint}>Customers will be directed here to make a booking</span>
+</div>
+
+<div style={s.field}>
+  <label style={s.label}>Contact Phone</label>
+  <input
+    style={s.input}
+    value={form.contact_phone || ''}
+    onChange={e => setForm({ ...form, contact_phone: e.target.value })}
+    placeholder="(555) 000-0000"
+  />
+  <span style={s.hint}>Used as fallback if no website is set</span>
+</div>
 
             <div style={s.formActions}>
               <button type="submit" style={s.btnPrimary} disabled={saving}>
