@@ -91,6 +91,12 @@ export async function GET(req) {
     }
 
     console.log('Cron results:', results)
+    await supabase.from('cron_log').insert({
+  sent_30day: results.sent30day,
+  sent_60day: results.sent60day,
+  errors: results.errors.length > 0 ? JSON.stringify(results.errors) : null,
+  status: results.errors.length > 0 ? 'partial' : 'success'
+})
     return Response.json({ success: true, ...results })
 
   } catch (err) {
