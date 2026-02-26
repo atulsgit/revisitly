@@ -291,7 +291,29 @@ function DashboardContent() {
           </div>
         )}
 
+        
+        {/* QR Card */}
+        {business?.slug && (
+          <div style={s.qrCard}>
+            <div style={s.qrIcon}>📱</div>
+            <div style={s.qrBody}>
+              <div style={s.qrTitle}>Customer Check-in QR Code</div>
+              <div style={s.qrUrl}>{`${process.env.NEXT_PUBLIC_APP_URL}/checkin/${business.slug}`}</div>
+            </div>
+            <div style={s.qrBtns}>
+              <button style={s.qrBtn} onClick={() => {
+                navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_APP_URL}/checkin/${business.slug}`)
+                showToast('Link copied!')
+              }}>📋 Copy</button>
+              <a href={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(`${process.env.NEXT_PUBLIC_APP_URL}/checkin/${business.slug}`)}`} download style={s.qrBtnAlt}>⬇ QR Code</a>
+              <a href={`${process.env.NEXT_PUBLIC_APP_URL}/checkin/${business.slug}`} target="_blank" rel="noopener noreferrer" style={s.qrBtnAlt}>👁 Preview</a>
+            </div>
+          </div>
+        )}
+        
         {/* Customer Table */}
+        <div style={s.tableCard}></div>
+
         <div style={s.tableCard}>
           <div style={s.tableHeader}>
             <h2 style={s.tableTitle}>Your Customers</h2>
@@ -428,6 +450,14 @@ const s = {
   emptyIcon: { fontSize: '3rem', marginBottom: 8 },
   emptyTitle: { color: '#f0f0f8', fontWeight: 700, fontSize: '1.1rem', fontFamily: "'Syne', sans-serif" },
   emptyText: { color: '#8888aa', fontSize: '0.88rem', maxWidth: 320 },
+  qrCard: { background: '#13131a', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: '18px 22px', marginBottom: 24, display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' },
+  qrIcon: { width: 48, height: 48, background: 'rgba(0,229,160,0.1)', border: '1px solid rgba(0,229,160,0.2)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem', flexShrink: 0 },
+  qrBody: { flex: 1 },
+  qrTitle: { fontWeight: 700, fontSize: '0.9rem', color: '#f0f0f8', marginBottom: 3 },
+  qrUrl: { color: '#00e5a0', fontSize: '0.76rem' },
+  qrBtns: { display: 'flex', gap: 8, flexWrap: 'wrap' },
+  qrBtn: { background: 'rgba(0,229,160,0.1)', border: '1px solid rgba(0,229,160,0.25)', color: '#00e5a0', padding: '8px 14px', borderRadius: 7, fontSize: '0.76rem', fontWeight: 600, cursor: 'pointer', fontFamily: "'DM Sans', sans-serif" },
+  qrBtnAlt: { background: 'transparent', border: '1px solid rgba(255,255,255,0.08)', color: '#8888aa', padding: '8px 14px', borderRadius: 7, fontSize: '0.76rem', fontWeight: 600, textDecoration: 'none', display: 'inline-flex', alignItems: 'center' },
 }
 export default function Dashboard() {
   return (
