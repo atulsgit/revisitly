@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { supabase } from '../../lib/supabase'
 import { useRouter, useSearchParams } from 'next/navigation'
 
@@ -12,7 +12,7 @@ const PLAN_DETAILS = {
   inactive:  { label: 'Inactive',  color: '#ff8080', limit: 'No active plan' },
 }
 
-export default function Dashboard() {
+function DashboardContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [business, setBusiness] = useState(null)
@@ -51,8 +51,8 @@ export default function Dashboard() {
 
     if (biz) {
       const { data: custs } = await supabase
-        .from('customers')
-        .select('*')
+        .from('business_customers')
+        .select('*, customers(id, name, email, phone)')
         .eq('business_id', biz.id)
         .order('created_at', { ascending: false })
       setCustomers(custs || [])
@@ -63,17 +63,26 @@ export default function Dashboard() {
   const handleAddCustomer = async (e) => {
     e.preventDefault()
     setAdding(true)
-    const { data, error } = await supabase
+
+    // Step 1 — upsert global customer
+    const { data: customerData, error: customerError } = await supabase
       .from('customers')
-      .insert({
-        business_id: business.id,
-        name: newCustomer.name,
-        email: newCustomer.email,
-        phone: newCustomer.phone,
-        notes: newCustomer.notes,
-        last_visit: new Date().toISOString().split('T')[0],
-      })
+      .upsert({ name: newCustomer.name, email: newCustomer.email, phone: newCustomer.phone || null }, { onConflict: 'email' })
       .select()
+      .single()
+
+    if (customerError) { showToast(customerError.message, 'error'); setAdding(false); return }
+
+    // Step 2 — create business relationship
+    const { data, error } = await supabase
+      .from('business_customers')
+      .upsert({
+        customer_id: customerData.id,
+        business_id: business.id,
+        last_visit: new Date().toISOString().split('T')[0],
+        notes: newCustomer.notes || null,
+      }, { onConflict: 'customer_id,business_id' })
+      .select('*, customers(id, name, email, phone)')
       .single()
 
     if (!error && data) {
@@ -82,23 +91,24 @@ export default function Dashboard() {
       setShowAddForm(false)
       showToast('Customer added successfully!')
     } else {
-      showToast(error.message, 'error')
+      showToast(error?.message || 'Failed to add customer', 'error')
     }
     setAdding(false)
   }
 
   const handleSendFollowUp = async (customer) => {
-    if (!customer.email) { showToast('No email address for this customer', 'error'); return }
+    if (!customer.customers?.email) { showToast('No email address for this customer', 'error'); return }
     setSendingEmail(customer.id)
 
     const res = await fetch('/api/followup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        customerId: customer.id,
-        customerName: customer.name,
-        customerEmail: customer.email,
+        businessCustomerId: customer.id,
+        customerName: customer.customers.name,
+        customerEmail: customer.customers.email,
         businessName: business.name,
+        businessId: business.id,
       }),
     })
 
@@ -108,7 +118,7 @@ export default function Dashboard() {
           ? { ...c, followup_sent: true, followup_sent_at: new Date().toISOString() }
           : c
       ))
-      showToast(`Follow-up sent to ${customer.name}!`)
+      showToast(`Follow-up sent to ${customer.customers.name}!`)
     } else {
       showToast('Failed to send email. Check your Resend API key.', 'error')
     }
@@ -309,13 +319,13 @@ export default function Dashboard() {
                   {customers.map((c, i) => (
                     <tr key={c.id} style={{ ...s.tr, ...(i % 2 === 0 ? s.trEven : {}) }}>
                       <td style={s.td}>
-                        <div style={s.custName}>{c.name}</div>
+                        <div style={s.custName}>{c.customers?.name}</div>
                         {c.notes && <div style={s.custNotes}>{c.notes}</div>}
                       </td>
                       <td style={s.td}>
-                        {c.email && <div style={s.contactItem}>✉ {c.email}</div>}
-                        {c.phone && <div style={s.contactItem}>📱 {c.phone}</div>}
-                        {!c.email && !c.phone && <span style={s.noContact}>—</span>}
+                        {c.customers?.email && <div style={s.contactItem}>✉ {c.customers.email}</div>}
+                        {c.customers?.phone && <div style={s.contactItem}>📱 {c.customers.phone}</div>}
+                        {!c.customers?.email && !c.customers?.phone && <span style={s.noContact}>—</span>}
                       </td>
                       <td style={s.td}>
                         <div style={s.dateText}>
@@ -333,7 +343,7 @@ export default function Dashboard() {
                         <button
                           style={{ ...s.actionBtn, ...(c.followup_sent ? s.actionBtnDone : {}) }}
                           onClick={() => !c.followup_sent && handleSendFollowUp(c)}
-                          disabled={c.followup_sent || sendingEmail === c.id || !c.email}
+                          disabled={c.followup_sent || sendingEmail === c.id || !c.customers?.email}
                           title={!c.email ? 'No email address' : ''}
                         >
                           {sendingEmail === c.id ? 'Sending...' : c.followup_sent ? '✓ Sent' : '✉ Send Follow-up'}
@@ -418,4 +428,16 @@ const s = {
   emptyIcon: { fontSize: '3rem', marginBottom: 8 },
   emptyTitle: { color: '#f0f0f8', fontWeight: 700, fontSize: '1.1rem', fontFamily: "'Syne', sans-serif" },
   emptyText: { color: '#8888aa', fontSize: '0.88rem', maxWidth: 320 },
+}
+export default function Dashboard() {
+  return (
+    <Suspense fallback={
+      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: '#0a0a0f' }}>
+        <div style={{ width: 36, height: 36, border: '3px solid rgba(255,255,255,0.1)', borderTop: '3px solid #00e5a0', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
+        <p style={{ color: '#8888aa', marginTop: 16 }}>Loading your dashboard...</p>
+      </div>
+    }>
+      <DashboardContent />
+    </Suspense>
+  )
 }
