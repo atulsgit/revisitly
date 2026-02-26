@@ -293,7 +293,31 @@ function DashboardContent() {
 
         
         {/* QR Card */}
-        {business?.slug && (
+        {/* QR Card */}
+{business?.slug && (
+  <div style={s.qrCard}>
+    {/* QR Image */}
+    <img 
+      src={`https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(`${process.env.NEXT_PUBLIC_APP_URL}/checkin/${business.slug}`)}&bgcolor=ffffff&color=000000&margin=8`}
+      alt="QR Code"
+      style={{ width: 80, height: 80, borderRadius: 8, flexShrink: 0 }}
+    />
+    <div style={s.qrBody}>
+      <div style={s.qrTitle}>Customer Check-in QR Code</div>
+      <div style={s.qrUrl}>{`${process.env.NEXT_PUBLIC_APP_URL}/checkin/${business.slug}`}</div>
+      <p style={{ color: '#8888aa', fontSize: '0.75rem', marginTop: 4 }}>Print & place on your counter for customers to self check-in</p>
+    </div>
+    <div style={s.qrBtns}>
+      <button style={s.qrBtn} onClick={() => {
+        navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_APP_URL}/checkin/${business.slug}`)
+        showToast('Link copied!')
+      }}>📋 Copy</button>
+      <a href={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(`${process.env.NEXT_PUBLIC_APP_URL}/checkin/${business.slug}`)}`} download style={s.qrBtnAlt}>⬇ Download</a>
+      <a href={`${process.env.NEXT_PUBLIC_APP_URL}/checkin/${business.slug}`} target="_blank" rel="noopener noreferrer" style={s.qrBtnAlt}>👁 Preview</a>
+    </div>
+  </div>
+)}
+        {/* {business?.slug && (
           <div style={s.qrCard}>
             <div style={s.qrIcon}>📱</div>
             <div style={s.qrBody}>
@@ -309,7 +333,7 @@ function DashboardContent() {
               <a href={`${process.env.NEXT_PUBLIC_APP_URL}/checkin/${business.slug}`} target="_blank" rel="noopener noreferrer" style={s.qrBtnAlt}>👁 Preview</a>
             </div>
           </div>
-        )}
+        )} */}
         
         {/* Customer Table */}
         <div style={s.tableCard}></div>
