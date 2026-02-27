@@ -56,7 +56,7 @@ export async function POST(req) {
       .single()
 
     const reviewUrl = business?.google_review_url || '#'
-
+      
     // Send follow-up email immediately
     await resend.emails.send({
       from: 'onboarding@resend.dev',
@@ -96,7 +96,9 @@ export async function POST(req) {
         </html>
       `,
     })
-
+console.log('About to send email to:', email)
+console.log('Business data:', business)
+console.log('Resend API key exists:', !!process.env.RESEND_API_KEY)
     // Update business_customers with follow-up sent
     await supabase
       .from('business_customers')
