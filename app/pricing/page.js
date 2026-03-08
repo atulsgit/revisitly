@@ -28,7 +28,8 @@ const PLANS = [
     description: 'Most popular for growing businesses',
     features: [
       'Up to 200 customers/month',
-      'Email + SMS follow-ups',
+      'Advanced email follow-ups',
+      'SMS follow-ups (Coming soon)',
       '30 & 60-day re-engagement',
       'Full analytics dashboard',
       'Custom message templates',
@@ -45,7 +46,8 @@ const PLANS = [
     description: 'For multi-location businesses',
     features: [
       'Unlimited customers',
-      'Email + SMS + WhatsApp',
+      'Advanced email campaigns',
+      'SMS + WhatsApp follow-ups (Coming soon)',
       'Multi-location support',
       'White-label messages',
       'API access',

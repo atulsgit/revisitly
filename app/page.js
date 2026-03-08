@@ -213,7 +213,7 @@ export default function LandingPage() {
             { icon: '⭐', title: 'Automated Review Requests', desc: 'Send a review link to every customer automatically. Watch your Google rating climb without any manual effort.' },
             { icon: '🔁', title: 'Repeat Customer Campaigns', desc: 'Smart follow-up sequences re-engage past customers at exactly the right time with personalised offers.' },
             { icon: '📊', title: 'Simple Dashboard', desc: 'See every customer, every follow-up, and every review in one clean place. No spreadsheets. No complexity.' },
-            { icon: '📱', title: 'SMS & Email', desc: 'Reach customers where they actually read — SMS open rates are over 90% vs 20% for email.' },
+            { icon: '📧', title: 'Email Follow-ups', desc: 'Automated email follow-ups help you stay connected with customers without manual work. SMS and WhatsApp follow-ups are coming soon.' },
             { icon: '⚡', title: '5-Minute Setup', desc: 'No tech knowledge needed. If you can use a smartphone, you can use FollowBiz.' },
             { icon: '🔒', title: 'GDPR & CAN-SPAM Ready', desc: 'All messages include proper opt-out links. Your business stays compliant with zero extra work.' },
           ].map(f => (
@@ -265,8 +265,8 @@ export default function LandingPage() {
         <div style={s.pricingGrid}>
           {[
             { name: 'Starter', price: 29, launch: 14.50, featured: false, features: ['50 customers/month', 'Email follow-ups', 'Review requests', 'Basic dashboard', 'Email support'] },
-            { name: 'Growth', price: 49, launch: 24.50, featured: true, features: ['200 customers/month', 'Email + SMS', '30 & 60-day re-engagement', 'Full analytics', 'Custom templates', 'Priority support'] },
-            { name: 'Pro', price: 79, launch: 39.50, featured: false, features: ['Unlimited customers', 'Email + SMS + WhatsApp', 'Multi-location', 'White-label messages', 'API access', 'Dedicated onboarding'] },
+            { name: 'Growth', price: 49, launch: 24.50, featured: true, features: ['200 customers/month', 'Advanced email follow-ups', 'SMS follow-ups (Coming soon)', '30 & 60-day re-engagement', 'Full analytics', 'Custom templates', 'Priority support'] },
+            { name: 'Pro', price: 79, launch: 39.50, featured: false, features: ['Unlimited customers', 'Advanced email campaigns', 'SMS + WhatsApp follow-ups (Coming soon)', 'Multi-location', 'White-label messages', 'API access', 'Dedicated onboarding'] },
           ].map(plan => (
             <div key={plan.name} style={{ ...s.priceCard, ...(plan.featured ? s.priceCardFeatured : {}) }} className="reveal">
               {plan.featured && <div style={s.popularBadge}>Most Popular</div>}
