@@ -229,7 +229,7 @@ const serviceOptions = {
         </form>
 
         <div style={{ textAlign: 'center', color: '#8888aa', fontSize: '0.75rem', marginTop: 24 }}>
-          Powered by <a href="/" style={{ color: '#00e5a0', textDecoration: 'none', fontWeight: 600 }}>Revisitly</a>
+          Powered by <a href="/" style={{ color: '#00e5a0', textDecoration: 'none', fontWeight: 600 }}>FollowBiz</a>
         </div>
       </div>
     </div>

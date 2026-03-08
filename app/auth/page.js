@@ -94,7 +94,7 @@ if (plan === 'growth' || plan === 'pro') {
       <div style={styles.card}>
         {/* Logo */}
         <a href="/" style={styles.logo}>
-          revisit<span style={styles.logoAccent}>ly</span>
+          Follow<span style={styles.logoAccent}>Biz</span>
         </a>
 
         {/* Tabs */}
@@ -118,7 +118,7 @@ if (plan === 'growth' || plan === 'pro') {
         </h1>
         <p style={styles.subheading}>
           {mode === 'login'
-            ? 'Log in to your Revisitly dashboard'
+            ? 'Log in to your FollowBiz dashboard'
             : 'Start your 14-day free trial — no card required'}
         </p>
 

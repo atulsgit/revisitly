@@ -154,7 +154,7 @@ function PricingContent() {
 
       {/* Nav */}
       <nav style={s.nav}>
-        <a href="/" style={s.logo}>revisit<span style={s.logoAccent}>ly</span></a>
+        <a href="/" style={s.logo}>Follow<span style={s.logoAccent}>Biz</span></a>
         {user && <a href="/dashboard" style={s.backLink}>← Back to Dashboard</a>}
       </nav>
 

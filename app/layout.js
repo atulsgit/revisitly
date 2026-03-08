@@ -14,7 +14,7 @@ const dmSans = DM_Sans({
 })
 
 export const metadata = {
-  title: 'Revisitly — Get More Reviews & Repeat Customers',
+  title: 'FollowBiz — Get More Reviews & Repeat Customers',
   description: 'Automated customer follow-up and review tool for salons, clinics, and trades.',
 }
 

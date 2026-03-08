@@ -26,7 +26,7 @@ function DashboardContent() {
 
   useEffect(() => {
     if (searchParams.get('success') === 'true') {
-      showToast('🎉 Payment successful! Welcome to Revisitly!', 'success')
+      showToast('🎉 Payment successful! Welcome to FollowBiz!', 'success')
       window.history.replaceState({}, '', '/dashboard')
     }
     loadData()
@@ -160,7 +160,7 @@ function DashboardContent() {
 
       {/* Sidebar */}
       <aside style={s.sidebar}>
-        <a href="/" style={s.logo}>revisit<span style={s.logoAccent}>ly</span></a>
+        <a href="/" style={s.logo}>Follow<span style={s.logoAccent}>Biz</span></a>
 
         <nav style={s.nav}>
           <div style={{ ...s.navItem, ...s.navItemActive }}>

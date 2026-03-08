@@ -39,7 +39,7 @@ export default function LandingPage() {
       {/* NAV */}
       <nav style={s.nav}>
         <div style={s.navInner}>
-          <a href="/" style={s.logo}>revisit<span style={s.logoAccent}>ly</span></a>
+          <a href="/" style={s.logo}>Follow<span style={s.logoAccent}>Biz</span></a>
           <div style={s.navLinks}>
             <a href="#how" style={s.navLink}>How it works</a>
             <a href="#features" style={s.navLink}>Features</a>
@@ -64,7 +64,7 @@ export default function LandingPage() {
           <span style={s.heroHighlight}>Zero Effort.</span>
         </h1>
         <p style={s.heroSub}>
-          Revisitly automatically follows up with your customers after every visit —
+          FollowBiz automatically follows up with your customers after every visit —
           collecting 5-star Google reviews and bringing them back before they forget you.
           Built for salons, clinics, and trades.
         </p>
@@ -83,7 +83,7 @@ export default function LandingPage() {
               <div style={{ ...s.dot, background: '#ff5f57' }} />
               <div style={{ ...s.dot, background: '#febc2e' }} />
               <div style={{ ...s.dot, background: '#28c840' }} />
-              <span style={s.previewUrl}>revisitly.app/dashboard</span>
+              <span style={s.previewUrl}>followbiz.app/dashboard</span>
             </div>
             <div style={s.previewContent}>
               <div style={s.previewStats}>
@@ -214,7 +214,7 @@ export default function LandingPage() {
             { icon: '🔁', title: 'Repeat Customer Campaigns', desc: 'Smart follow-up sequences re-engage past customers at exactly the right time with personalised offers.' },
             { icon: '📊', title: 'Simple Dashboard', desc: 'See every customer, every follow-up, and every review in one clean place. No spreadsheets. No complexity.' },
             { icon: '📱', title: 'SMS & Email', desc: 'Reach customers where they actually read — SMS open rates are over 90% vs 20% for email.' },
-            { icon: '⚡', title: '5-Minute Setup', desc: 'No tech knowledge needed. If you can use a smartphone, you can use Revisitly.' },
+            { icon: '⚡', title: '5-Minute Setup', desc: 'No tech knowledge needed. If you can use a smartphone, you can use FollowBiz.' },
             { icon: '🔒', title: 'GDPR & CAN-SPAM Ready', desc: 'All messages include proper opt-out links. Your business stays compliant with zero extra work.' },
           ].map(f => (
             <div key={f.title} style={s.featureCard} className="reveal">
@@ -300,7 +300,7 @@ export default function LandingPage() {
       <section style={s.ctaSection}>
         <div style={s.ctaBox} className="reveal">
           <h2 style={s.ctaTitle}>Start Getting More Reviews<br />This Week</h2>
-          <p style={s.ctaSub}>Join local businesses already using Revisitly. 14-day free trial, no credit card required.</p>
+          <p style={s.ctaSub}>Join local businesses already using FollowBiz. 14-day free trial, no credit card required.</p>
           <Link href="/auth" style={s.btnPrimary}>Create Your Free Account →</Link>
           <p style={{ color: '#8888aa', fontSize: '0.8rem', marginTop: 16 }}>
             Free for 14 days · No credit card · Cancel anytime
@@ -311,13 +311,13 @@ export default function LandingPage() {
       {/* FOOTER */}
       <footer style={s.footer}>
         <div style={s.footerInner}>
-          <a href="/" style={s.logo}>revisit<span style={s.logoAccent}>ly</span></a>
+          <a href="/" style={s.logo}>Follow<span style={s.logoAccent}>Biz</span></a>
           <div style={s.footerLinks}>
             <a href="#" style={s.footerLink}>Privacy Policy</a>
             <a href="#" style={s.footerLink}>Terms of Service</a>
-            <a href="mailto:hello@revisitly.com" style={s.footerLink}>hello@revisitly.com</a>
+            <a href="mailto:hello@followbiz.com" style={s.footerLink}>hello@followbiz.com</a>
           </div>
-          <p style={s.footerCopy}>© 2025 Revisitly. Built for local businesses.</p>
+          <p style={s.footerCopy}>© 2025 FollowBiz. Built for local businesses.</p>
         </div>
       </footer>
     </div>

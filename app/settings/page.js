@@ -168,7 +168,7 @@ const handleSave = async (e) => {
 
       {/* Sidebar */}
       <aside style={s.sidebar}>
-        <a href="/" style={s.logo}>revisit<span style={s.logoAccent}>ly</span></a>
+        <a href="/" style={s.logo}>Follow<span style={s.logoAccent}>Biz</span></a>
         <nav style={s.nav}>
           <a href="/dashboard" style={{ ...s.navItem, textDecoration: 'none' }}><span>📊</span> Dashboard</a>
           <div style={s.navItem} ><span>➕</span> Add Customer</div>
